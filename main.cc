@@ -3,11 +3,12 @@
 #include <argparse/argparse.hpp>
 #include <spdlog/spdlog.h>
 
-#include "FTFP_BERT.hh"
+#include "LBE.hh"
 #include "G4ios.hh"
 #include "G4RunManager.hh"
 
 #include "DetectorConstruction.hh"
+#include "UserActionInit.hh"
 
 struct CliArguments
 {
@@ -45,12 +46,20 @@ int main(int argc, char **argv)
     CliArguments *args = parse(argc, argv);
     G4cout << "output file: " << args->output << G4endl;
 
+    auto runManager = new G4RunManager();
+
+    // Geometry
     auto nistManager = G4NistManager::Instance();
     auto detectorConstruction = new G4Miraclue::DetectorConstruction(nistManager);
-
-    auto runManager = new G4RunManager();
-    runManager->SetUserInitialization(new FTFP_BERT());
     runManager->SetUserInitialization(detectorConstruction);
+    // Physics
+    G4VModularPhysicsList *physicsList = new LBE();
+    runManager->SetUserInitialization(physicsList);
+    // Primary Generator
+    auto primaryGeneratorAction = new G4Miraclue::PrimaryGenerator();
+    auto userActionInit = new G4Miraclue::UserActionInit(primaryGeneratorAction);
+    runManager->SetUserInitialization(userActionInit);
+
     runManager->Initialize();
 
     return 0;

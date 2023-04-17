@@ -1,0 +1,12 @@
+#! /usr/bin/bash
+export G4ABLADATA="/usr/share/geant4/data/G4ABLA3.1"
+export G4ENSDFSTATEDATA="/usr/share/geant4/data/G4ENSDFSTATE2.3"
+export G4INCLDATA="/usr/share/geant4/data/G4INCL1.0"
+export G4LEDATA="/usr/share/geant4/data/G4EMLOW8.0"
+export G4LEVELGAMMADATA="/usr/share/geant4/data/PhotonEvaporation5.7"
+export G4NEUTRONHPDATA="/usr/share/geant4/data/G4NDL4.6"
+export G4PARTICLEXSDATA="/usr/share/geant4/data/G4PARTICLEXS4.0"
+export G4PIIDATA="/usr/share/geant4/data/G4PII1.3"
+export G4RADIOACTIVEDATA="/usr/share/geant4/data/RadioactiveDecay5.6"
+export G4REALSURFACEDATA="/usr/share/geant4/data/RealSurface2.2"
+export G4SAIDXSDATA="/usr/share/geant4/data/G4SAIDDATA2.0"
