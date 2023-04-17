@@ -1,22 +1,45 @@
-#include "TTree.h"
+#include <string>
+
+#include <argparse/argparse.hpp>
+#include <spdlog/spdlog.h>
+
 #include "G4ios.hh"
 
-int main()
+struct CliArguments
 {
-    auto tree = new TTree("tree", "tree");
+    std::string output;
+};
 
-    int a;
-    tree->Branch("a", &a);
+CliArguments *parse(int argc, char **argv)
+{
+    auto p = new argparse::ArgumentParser("g4miraclue");
+    auto ret = new CliArguments{};
 
-    for (int i = 0; i < 10; ++i)
+    p->add_argument("-o", "--output")
+        .default_value("out.root")
+        .help("output root file");
+
+    try
     {
-        a = i;
-        tree->Fill();
+        p->parse_args(argc, argv);
+    }
+    catch (const std::runtime_error &err)
+    {
+        spdlog::error("Argument parse err: ");
+        spdlog::error(err.what());
+        spdlog::error(p->help().str());
+        std::exit(1);
     }
 
-    tree->Print();
+    ret->output = p->get<std::string>("--output");
 
-    G4cout << "hello, world from ROOT and Geant4!" << G4endl;
+    return ret;
+}
 
+int main(int argc, char **argv)
+{
+    CliArguments *args = parse(argc, argv);
+
+    G4cout << "output file: " << args->output << G4endl;
     return 0;
 }
