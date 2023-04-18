@@ -1,16 +1,17 @@
 #include "Geant4/G4VUserActionInitialization.hh"
-#include "PrimaryGeneragor.hh"
 
 namespace G4Miraclue
 {
     class UserActionInit : public G4VUserActionInitialization
     {
     public:
-        UserActionInit(PrimaryGenerator *gen);
+        UserActionInit(G4VUserPrimaryGeneratorAction *pg,
+                       G4UserRunAction *ra);
         virtual ~UserActionInit();
         virtual void Build() const;
 
     private:
-        PrimaryGenerator *primaryGenerator;
+        G4VUserPrimaryGeneratorAction *primaryGenerator;
+        G4UserRunAction *runAction;
     };
 }

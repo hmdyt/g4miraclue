@@ -10,7 +10,7 @@ namespace G4Miraclue
     public:
         PrimaryGenerator();
         ~PrimaryGenerator();
-        void GeneratePrimaries(G4Event *);
+        virtual void GeneratePrimaries(G4Event *);
 
     private:
         G4ParticleGun *particleGun;

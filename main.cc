@@ -12,6 +12,8 @@
 
 #include "DetectorConstruction.hh"
 #include "UserActionInit.hh"
+#include "PrimaryGeneragor.hh"
+#include "RunAction.hh"
 
 struct CliArguments
 {
@@ -59,6 +61,8 @@ CliArguments *parse(int argc, char **argv)
 
 int main(int argc, char **argv)
 {
+    spdlog::set_level(spdlog::level::debug);
+
     CliArguments *args = parse(argc, argv);
     G4cout << "output file: " << args->output << G4endl;
 
@@ -71,9 +75,9 @@ int main(int argc, char **argv)
     // Physics
     G4VModularPhysicsList *physicsList = new LBE();
     runManager->SetUserInitialization(physicsList);
-    // Primary Generator
-    auto primaryGeneratorAction = new G4Miraclue::PrimaryGenerator();
-    auto userActionInit = new G4Miraclue::UserActionInit(primaryGeneratorAction);
+    // User Action Register
+    auto userActionInit = new G4Miraclue::UserActionInit(new G4Miraclue::PrimaryGenerator(),
+                                                         new G4Miraclue::RunAction());
     runManager->SetUserInitialization(userActionInit);
     // init
     runManager->Initialize();
