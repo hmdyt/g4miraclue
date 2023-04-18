@@ -12,6 +12,7 @@ namespace G4Miraclue
     namespace CopyNumber
     {
         constexpr G4int world = 0;
+        constexpr G4int argon = 1;
     }
 
     DetectorConstruction::DetectorConstruction(G4NistManager *nMan)
@@ -22,6 +23,7 @@ namespace G4Miraclue
 
     G4VPhysicalVolume *DetectorConstruction::Construct()
     {
+        // world
         auto world = new G4PVPlacement(G4Transform3D(),
                                        "worldPhysical",
                                        this->constructLogicalWorld(),
@@ -29,6 +31,14 @@ namespace G4Miraclue
                                        false,
                                        CopyNumber::world,
                                        true);
+        // argon
+        new G4PVPlacement(G4Transform3D(),
+                          "ArgonPhysical",
+                          this->constructLogicalGaseousArgon(),
+                          world,
+                          false,
+                          CopyNumber::argon,
+                          true);
         return world;
     }
 
@@ -41,6 +51,17 @@ namespace G4Miraclue
                              WorldLength::z / 2.);
         auto logicalVolume = new G4LogicalVolume(box, material, "worldLogical");
         logicalVolume->SetVisAttributes(G4VisAttributes::GetInvisible());
+        return logicalVolume;
+    }
+
+    G4LogicalVolume *DetectorConstruction::constructLogicalGaseousArgon()
+    {
+        auto material = this->nistManager->FindOrBuildMaterial("G4_Ar");
+        auto box = new G4Box("ArgonBox",
+                             30. * cm / 2.,
+                             30. * cm / 2.,
+                             30. * cm / 2.);
+        auto logicalVolume = new G4LogicalVolume(box, material, "ArgonLogical");
         return logicalVolume;
     }
 

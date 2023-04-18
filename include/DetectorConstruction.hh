@@ -19,5 +19,6 @@ namespace G4Miraclue
     private:
         G4NistManager *nistManager;
         G4LogicalVolume *constructLogicalWorld();
+        G4LogicalVolume *constructLogicalGaseousArgon();
     };
 }

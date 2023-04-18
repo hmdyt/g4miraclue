@@ -27,6 +27,7 @@ CliArguments *parse(int argc, char **argv)
 
     p->add_argument("-i", "--interactive")
         .default_value(false)
+        .implicit_value(true)
         .help("interactive mode");
 
     p->add_argument("-m", "--macro")
