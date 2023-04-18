@@ -1,5 +1,7 @@
+#include "Geant4/G4SystemOfUnits.hh"
 #include "Geant4/G4VUserPrimaryGeneratorAction.hh"
 #include "Geant4/G4ParticleGun.hh"
+#include "Geant4/G4ParticleTable.hh"
 
 namespace G4Miraclue
 {
