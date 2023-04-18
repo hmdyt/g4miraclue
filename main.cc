@@ -14,6 +14,7 @@
 #include "UserActionInit.hh"
 #include "PrimaryGeneragor.hh"
 #include "RunAction.hh"
+#include "EventAction.hh"
 
 struct CliArguments
 {
@@ -77,7 +78,8 @@ int main(int argc, char **argv)
     runManager->SetUserInitialization(physicsList);
     // User Action Register
     auto userActionInit = new G4Miraclue::UserActionInit(new G4Miraclue::PrimaryGenerator(),
-                                                         new G4Miraclue::RunAction());
+                                                         new G4Miraclue::RunAction(),
+                                                         new G4Miraclue::EventAction());
     runManager->SetUserInitialization(userActionInit);
     // init
     runManager->Initialize();
