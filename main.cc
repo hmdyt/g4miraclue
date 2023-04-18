@@ -15,6 +15,7 @@
 #include "PrimaryGeneragor.hh"
 #include "RunAction.hh"
 #include "EventAction.hh"
+#include "SteppingAction.hh"
 
 struct CliArguments
 {
@@ -79,7 +80,8 @@ int main(int argc, char **argv)
     // User Action Register
     auto userActionInit = new G4Miraclue::UserActionInit(new G4Miraclue::PrimaryGenerator(),
                                                          new G4Miraclue::RunAction(),
-                                                         new G4Miraclue::EventAction());
+                                                         new G4Miraclue::EventAction(),
+                                                         new G4Miraclue::SteppingAction());
     runManager->SetUserInitialization(userActionInit);
     // init
     runManager->Initialize();

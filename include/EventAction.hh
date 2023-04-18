@@ -1,5 +1,6 @@
 #include <spdlog/spdlog.h>
 #include "Geant4/G4UserEventAction.hh"
+#include "Geant4/G4SystemOfUnits.hh"
 #include "Geant4/G4Event.hh"
 
 namespace G4Miraclue
@@ -9,7 +10,7 @@ namespace G4Miraclue
     public:
         EventAction();
         ~EventAction();
-        void BeginOfEventAction(const G4Event *event);
-        void EndOfEventAction(const G4Event *event);
+        virtual void BeginOfEventAction(const G4Event *event);
+        virtual void EndOfEventAction(const G4Event *event);
     };
 }

@@ -14,7 +14,7 @@ namespace G4Miraclue
     public:
         DetectorConstruction(G4NistManager *nMan);
         ~DetectorConstruction();
-        G4VPhysicalVolume *Construct();
+        virtual G4VPhysicalVolume *Construct();
 
     private:
         G4NistManager *nistManager;

@@ -7,7 +7,7 @@ namespace G4Miraclue
     public:
         RunAction();
         ~RunAction();
-        void BeginOfRunAction(const G4Run *);
-        void EndOfRunAction(const G4Run *);
+        virtual void BeginOfRunAction(const G4Run *);
+        virtual void EndOfRunAction(const G4Run *);
     };
 }
