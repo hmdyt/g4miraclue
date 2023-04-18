@@ -6,12 +6,17 @@
 #include "LBE.hh"
 #include "G4ios.hh"
 #include "G4RunManager.hh"
+#include "G4UImanager.hh"
+#include "G4VisExecutive.hh"
+#include "G4UIExecutive.hh"
 
 #include "DetectorConstruction.hh"
 #include "UserActionInit.hh"
 
 struct CliArguments
 {
+    bool isIntaractiveMode;
+    std::string macroFile;
     std::string output;
 };
 
@@ -19,6 +24,14 @@ CliArguments *parse(int argc, char **argv)
 {
     auto p = new argparse::ArgumentParser("g4miraclue");
     auto ret = new CliArguments{};
+
+    p->add_argument("-i", "--interactive")
+        .default_value(false)
+        .help("interactive mode");
+
+    p->add_argument("-m", "--macro")
+        .default_value("macro/run.macro")
+        .help("macro file path");
 
     p->add_argument("-o", "--output")
         .default_value("out.root")
@@ -36,6 +49,8 @@ CliArguments *parse(int argc, char **argv)
         std::exit(1);
     }
 
+    ret->isIntaractiveMode = p->get<bool>("--interactive");
+    ret->macroFile = p->get<std::string>("--macro");
     ret->output = p->get<std::string>("--output");
 
     return ret;
@@ -59,8 +74,24 @@ int main(int argc, char **argv)
     auto primaryGeneratorAction = new G4Miraclue::PrimaryGenerator();
     auto userActionInit = new G4Miraclue::UserActionInit(primaryGeneratorAction);
     runManager->SetUserInitialization(userActionInit);
-
+    // init
     runManager->Initialize();
+
+    auto uiManager = G4UImanager::GetUIpointer();
+
+    if (args->isIntaractiveMode)
+    {
+        auto *visExec = new G4VisExecutive();
+        visExec->Initialize();
+
+        auto *uiExec = new G4UIExecutive(argc, argv);
+        uiExec->SessionStart();
+    }
+    else
+    {
+        uiManager->ApplyCommand("/control/execute " + args->macroFile);
+        // TODO: tell output file path
+    }
 
     return 0;
 }
